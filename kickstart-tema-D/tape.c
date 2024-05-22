@@ -19,7 +19,7 @@ struct _s_tape {
 
 static bool invrep(tape_t tape) {
     // La invariante de representación asegura que la cinta siempre es válida
-    bool is_valid = (tape != NULL && tape->size >= 0);
+    bool is_valid = (tape != NULL);
     unsigned int count = 0;
     node_t node = tape->start;
     while (node != NULL) {
