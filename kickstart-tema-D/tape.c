@@ -170,6 +170,7 @@ tape_t tape_copy(tape_t tape) {
     tape_t copy = tape_create();
     node_t node = tape->start;
     node_t last = NULL;
+     // Copiamos todos los elementos de la cinta original a la nueva cinta
     while (node != NULL) {
         node_t new_node = create_node(node->elem);
         if (copy->start == NULL) {
@@ -184,7 +185,19 @@ tape_t tape_copy(tape_t tape) {
         node = node->next;
     }
     copy->size = tape->size;
-    assert(invrep(copy) && copy != tape && tape_at_start(copy) && tape_length(tape) == tape_length(copy));
+    // Si el cursor en la cinta original está al final (NULL), ajustamos el cursor de la copia
+    if (tape->cursor == NULL) {
+        copy->cursor = NULL;
+    } else {
+        // Aseguramos que el cursor de la copia está en la misma posición que el original
+        copy->cursor = copy->start;
+        node = tape->start;
+         while (node != tape->cursor) {
+            copy->cursor = copy->cursor->next;
+            node = node->next;
+        }
+    }
+    assert(invrep(copy) && copy != tape && tape_length(tape) == tape_length(copy));
     return copy;
 }
 
